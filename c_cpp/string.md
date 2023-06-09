@@ -52,6 +52,89 @@ C에서 사용하는 문자열 관련 라이브러리도 사용 가능하지만,
         ```
 
 
+### 자주 쓰는 String 관련 함수
+- string.compare()
+    ```c++
+    string str1 = "hello";
+    string str2 = "HELLO";
+
+    int result = str1.compare(str2);
+    if(result == 0)
+    {
+        printf("같은 문자열");
+        // 같으면 0 리턴
+    }
+    else
+    {
+        printf("다른 문자열");
+        // 같으면 -1 리턴
+    }
+    ```
+- string.find()
+    ```c++
+    string total_string = "I'm studying c++";
+    string find_string = "study";
+
+    int result = total_string.find(find_string);
+    if (result >= 0)
+    {
+        // 찾으면 문자 또는 문자열의 시작 위치 반환;
+        // 시작 위치는 0부터 시작
+        printf("find it! location is : %d\n", result);
+    }
+    else
+    {
+        // 찾지 못 할 경우 -1 리턴
+        printf("cannot find\n");
+    }
+    ```
+- string.length()
+- toupper()/tolower()
+- string.append()
+    ```c++
+    string str1 = "hello";
+    string str2 = "world";
+    string result = "result: ";
+
+    // append 와 += 동일한 기능
+    // += 는 복합 할당 연산자
+    result.append(str1);
+    result += str2;
+
+    cout << result << endl;
+    ```
+- string.insert()
+- string.erase()
+- string.remove()
+- string.move()
+- string.replace()
+- stoi()
+- sort()
+- reverse()
+- to_string()
+- min()/max()/minmax()
+    ```c++
+    #include <algorithm>
+    using namespace std;
+
+    /* Definition
+    template<class T>
+    const T& min (const T& a, const T& b)
+
+    template<class T>
+    const T& max (const T& a, const T& b)
+
+    template<class T> 
+    pair<const T&, const T&> minmax(const T& a, const T& b);
+        or
+    template<class T>
+    pair<const T&, const T&> minmax(initializer_list<T> ilist);
+
+    */
+    ```
+
+### stringstream
+
 
 ### Reference
 - [문자열 관련](https://www.sagacityjang@tistory.com/109)
@@ -60,3 +143,4 @@ C에서 사용하는 문자열 관련 라이브러리도 사용 가능하지만,
 
 ======================================================
 ###### 230520 TIL
+###### 230609 TIL
