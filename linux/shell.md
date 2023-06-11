@@ -46,7 +46,7 @@
 
 
 ### Reference
-- 
+- [awk](https://recipes4dev.tistory.com/171)
 
 
 
