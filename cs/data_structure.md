@@ -68,6 +68,43 @@
 |복잡|구현 복잡도|간단|
 
 
+### 스택
+데이터가 FILO(First In, Last Out) 으로 쌓이는 자료 구조<br>
+* 배열이나 연결 리스트로 구현
+* 다뤄야 할 주요 기능
+    1. 스택 생성
+    2. 스택 Full/Empty 검사
+    3. 스택 상단에 데이터 추가(push), 꺼내기(pop)
+    4. 스택 내의 모든 데이터 출력 
+    5. 스택 소멸
+
+> - size: 스택의 공간 크기(저장 가능한 데이터의 양) 
+> - push: 스택에 데이터를 넣음
+> - pop: 스택에서 데이터를 꺼냄
+> - top: 스택에서 데이터를 입출력할 데이터의 위치(index)
+
+### 스택 구현
+```C++
+// 스택 관리 구조체
+typedef struct_stack
+{
+    int *stack;     // 스태긍로 사용되는 동적할당 배열 주소
+    int size;       // 스택의 크기
+    int top;        // 스택의 입출력 위치 정보
+} Stack;
+
+// 구현해야 할 함수들
+bool createStack();
+bool isStackFull();
+bool isStackEmpty();
+bool push();
+bool pop();
+void printStack();
+void destroyStack();
+```
+* [C로 구현]() <br>
+* [C++로 구현]()
+
 
 ### Reference
 - [인프런 판타스틱 자료구조 입문](https://www.inflearn.com/course/판타스틱-자료구조-입문)
@@ -76,3 +113,4 @@
 
 ======================================================
 ###### 230612 TIL
+###### 230615 TIL
