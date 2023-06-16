@@ -70,6 +70,7 @@
 
 ### 스택
 데이터가 FILO(First In, Last Out) 으로 쌓이는 자료 구조<br>
+입구와 출구가 동일
 * 배열이나 연결 리스트로 구현
 * 다뤄야 할 주요 기능
     1. 스택 생성
@@ -106,6 +107,87 @@ void destroyStack();
 * [C++로 구현]()
 
 
+### 큐
+데이터가 FIFO(First In, First Out) 으로 쌓이는 자료 구조<br>
+입구와 출구가 구분됨
+* 배열이나 연결 리스트로 구현
+* 다뤄야 할 주요 기능
+    1. 큐 생성
+    2. 큐 Full/Empty 검사
+    3. 큐에 데이터 추가(put), 꺼내기(get)
+    4. 큐의 모든 데이터 출력 
+    5. 큐 소멸
+
+> - size: 큐의 공간 크기(저장 가능한 데이터의 양) 
+> - put(enqueue): 큐에 데이터를 넣음
+> - get(dequeue): 큐에서 데이터를 꺼냄
+> - front: 큐에서 출력할 데이터의 위치(index); 첫번째 데이터 위치
+> - rear: 큐에서 입력할 데이터의 위치(index); 마지막 데이터+1
+
+#### 일반 큐를 쓰지 않는 이유
+일자 큐는 1회성으로밖에 사용할 수 없다.<br>
+```c++
+// 큐가 비어있는 경우; front == rear
+const int SIZE = 3;
+int que = new int[SIZE];
+int front = 0, rear = 0;
+
+que[rear++] = 10;   // rear == 1;
+que[rear++] = 20;   // rear == 2;
+que[rear++] = 30;   // rear == 3;
+// 큐가 꽉 차있음; SIZE == rear;
+
+// 데이터를 빼냄
+// dequeue 구현 안 되었으므로 front++ 로 get 처리
+int data = queue[front++];  // front == 1;
+data = queue[front++];      // front == 2;
+data = queue[front++];      // front == 3;
+
+/*
+데이터를 전부 빼냈으므로 큐는 비어 있음
+그런데???
+SIZE == rear == front == 3
+empty인지 full인지 알 수가 없는 상태가 됨
+-> 재사용 불가
+*/ 
+```
+
+### 원형 큐
+일반 큐의 단점(1회성) 해결한 자료 구조<br>
+FIFO를 유지하되, 큐의 입구와 출구 연결(당연하지만 물리적으로 연결한다는 뜻은 아님)
+* 완충지대 개념 
+    - 원형 큐의 Empty/Full 상태를 구분하기 위해 front/rear 사이 비어 있는 인덱스 개념 도입
+    - 데이터 저장하지 않는 인덱스
+    - `if (rear == 완충지대) { // Full };`
+    - `if (front == rear) { // Empty };`
+    - 이전 일자 큐가 문제였던 부분, 꽉 찬 상태일 때 front와 rear가 같은 곳을 가리키면 안 됨 => 완충지대가 필요한 이유
+    - 완충지대 위치: **front 앞 index**
+        - 원형 큐는 데이터를 빼고 넣으면서 계속 인덱스가 움직이기 때문에 완충지대 역시 움직이게 된다(무조건 마지막 x) 
+* `rear = (rear+1) % Q_SIZE`
+
+### 큐 구현
+```C++
+// 큐 관리 구조체
+typedef struct_queue
+{
+    int *queue;         // 큐로 사용되는 동적할당 배열 주소
+    int size;           // 큐의 크기
+    int front, rear;    // 큐의 출/입력 위치 정보
+} Que;
+
+// 구현해야 할 함수들
+bool createQueue();
+bool isQueueFull();
+bool isQueueEmpty();
+bool enqueue();
+bool dequeue();
+void printQueue();
+void destroyQueue();
+```
+* [C로 구현]() <br>
+* [C++로 구현]()
+
+
 ### Reference
 - [인프런 판타스틱 자료구조 입문](https://www.inflearn.com/course/판타스틱-자료구조-입문)
 
@@ -114,3 +196,4 @@ void destroyStack();
 ======================================================
 ###### 230612 TIL
 ###### 230615 TIL
+###### 230616 TIL
