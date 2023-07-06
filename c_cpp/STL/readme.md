@@ -24,7 +24,7 @@ C++의 [Template]()을 이용해 미리 이용할 수 있는 자료구조 등의
 
 ### STL 공부 리스트
 1. 순차 컨테이너 (Sequence Container)
-    - [vector](): 벡터 (Vector)
+    - [vector](./vector.md): 벡터 (Vector)
     - [deque](): 데크 (double ended queue)
     - [list](): 리스트 (List)
 
