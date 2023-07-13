@@ -19,8 +19,8 @@
 
 template < class T, class Alloc = allocator<T> > class list;
 
-typedef T vector::value_type;
-typedef Alloc vector::allocator_type;
+typedef T list::value_type;
+typedef Alloc list::allocator_type;
 ```
 > Member function
 
