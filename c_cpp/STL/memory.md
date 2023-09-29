@@ -16,12 +16,16 @@ template <class T, class D> class unique_ptr<T[],D>;
 3. [unique_ptr](#unique_ptr)
 4. (deprecated) [auto_ptr](#auto_ptr)
 
+### 스마트 포인터
+기존 포인터를 사용할 때 발생하는 문제점들, 특히 메모리 누수(memory leak) 이슈를 방지하기 위해 c++ 에서 구현된 wrapper class. Java나 C#의 Garbage Collector 대신 사용하는 메커니즘이다.
+
+
 ### shared_ptr
 포인터의 소유권을 가지고, 그 **소유권을 공유**할 수 있는 스마트 포인터. <br>
 여러 개의 shared_ptr가 하나의 객체를 참조할 수 있으며, 참조하는 스마트 포인터의 개수를 참조 횟수(reference count)라고 한다. <br>
 소유권을 가진 마지막 객체가 소유권을 잃을 때, 즉 아무도 해당 포인터의 소유권을 갖지 않게 될 때, **참조 횟수가 0이 될 때** 포인터를 소멸시킨다. 
 - 소유권을 잃는 경우
-    1. 객체가 소멸될 때
+    1. 객체가 소멸될 때 (해당 객체가 선언된 scope 를 벗어날 때)
     2. 객체에 다른 값이 할당될 때
     3. `shared_ptr::reset` 명시적 호출
 
@@ -36,16 +40,22 @@ template <class T, class D> class unique_ptr<T[],D>;
     - owned pointer
 
 3. 순환 참조
-
+    - 서로 다른 두 개의 shared_ptr 가 서로를 참조하는 경우
+        - 간단히 말해서 두 개의 객체(A, B)가 각각 서로를 참조하는 shared_ptr를 가지고 있을 때, 각각의 reference count는 2 (처음 shared_ptr을 )
+        - [TODO. reference count 내가 직접 짜 봐야겠음. 내일.]
 
 ### weak_ptr
 `shared_ptr`처럼 포인터를 공유할 수 있으나, 소유권은 없는 약한 스마트 포인터<br>
-shared_ptr 인스턴스 사이의 순환 참조를 제거하기 위해 사용됨
+shared_ptr 인스턴스 사이의 순환 참조를 제거하기 위해 사용됨<br>
+-> 즉, 항상 shared_ptr 와 함께 사용되며, 자원 상태를 확인하는 동시에 count 를 하고 싶지 않을 때 사용
+
+> **정리**<br>
+> 
 
 
 ### unique_ptr
 제한된 GC(Garbage Collection) 기능을 제공하는 스마트 포인터로, 하나의 스마트 포인터만이 객체에 소유권을 가질 수 있다. <br>
-즉 한번 소유권을 가지게 되면 소유권을 잃게 될 때 해당 포인터를 반드시 소멸시킨다. 소유권을 잃게 되는 경우는 [shared_ptr](#share_ptr)와 동일하다. 
+즉 한번 소유권을 가지게 되면 소유권을 잃게 될 때 해당 포인터를 반드시 소멸시킨다. 소유권을 잃게 되는 경우는 [shared_ptr](#shared_ptr)와 동일하다. 
 - 포인터를 혼자만 소유
     - 다른 객체가 `unique_ptr`이 가리키는 포인터에 대해 관여하지 않음
     - 다른 포인터가 동일한 포인터를 가리키는 것에 대해 막지는 않지만, `unique_ptr`이 소멸되면서 해당 포인터를 release하기 때문에 다른 포인터가 가리키는 값을 잃는 것에 대해서 보장하지 않음
@@ -95,6 +105,8 @@ c++11 이전에 사용되던 스마트 포인터로, c++11 이후로는 대신 `
 - [cplusplus: shared_ptr](https://cplusplus.com/reference/memory/shared_ptr/)
 - [aliasing](https://developers.redhat.com/blog/2020/06/02/the-joys-and-perils-of-c-and-c-aliasing-part-1)
 - [cplusplus: unique_ptr](https://cplusplus.com/reference/memory/unique_ptr/)
+- [smart pointers](https://www.geeksforgeeks.org/smart-pointers-cpp/)
+- [shared_ptr: circular references example](https://www.learncpp.com/cpp-tutorial/circular-dependency-issues-with-stdshared_ptr-and-stdweak_ptr/)
 
 
 ======================================================
@@ -103,3 +115,4 @@ c++11 이전에 사용되던 스마트 포인터로, c++11 이후로는 대신 `
 ###### 230730 TIL
 ###### 230731 TIL
 ###### 230801 TIL
+###### 230929 TIL
