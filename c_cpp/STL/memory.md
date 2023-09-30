@@ -42,12 +42,19 @@ template <class T, class D> class unique_ptr<T[],D>;
 3. 순환 참조
     - 서로 다른 두 개의 shared_ptr 가 서로를 참조하는 경우
         - 간단히 말해서 두 개의 객체(A, B)가 각각 서로를 참조하는 shared_ptr를 가지고 있을 때, 각각의 reference count는 2 (처음 shared_ptr을 )
-        - [TODO. reference count 내가 직접 짜 봐야겠음. 내일.]
+        - [reference count ex](../../cpp_practice/shared_ptr_circular_refer.cpp) 
+    - 언제 이런 경우가 발생하는지, 누가 코드를 그렇게 짜는지 계속 고민을 했는데 이런 경우가 발생할지를 생각하지 않고 막 짜다 보면 충분히 발생 가능함
+    - ex1. 그룹-멤버 의 관계에서 그룹이 멤버의 리스트를 가지고 있고, 멤버도 본인이 어떤 그룹에 속해 있는지 알기 위해 그룹의 포인터를 참조할 경우
+        - [그나마 제일 이해가 잘 간 예시](https://3dmpengines.tistory.com/1622)
+        - 이런 경우, 원래는 그룹의 id를 가지고 그룹 상위 Manager 에서 그룹을 찾아 필요한 행동을 하는 식으로 구현하는 게 맞고, 이게 너무 번거롭다고 생각되면 weak_ptr을 쓴다.
+
 
 ### weak_ptr
 `shared_ptr`처럼 포인터를 공유할 수 있으나, 소유권은 없는 약한 스마트 포인터<br>
 shared_ptr 인스턴스 사이의 순환 참조를 제거하기 위해 사용됨<br>
--> 즉, 항상 shared_ptr 와 함께 사용되며, 자원 상태를 확인하는 동시에 count 를 하고 싶지 않을 때 사용
+-> 즉, 항상 shared_ptr 와 함께 사용되며, 자원 상태를 확인하는 동시에 count 를 하고 싶지 않을 때 사용<br>
+-> 그럼 누가 weak_ptr 을 release 해 주는가???<br>
+    -> [TODO: 공부 후 정리해서 삭제하기](https://jungwoong.tistory.com/50)
 
 > **정리**<br>
 > 
@@ -116,3 +123,4 @@ c++11 이전에 사용되던 스마트 포인터로, c++11 이후로는 대신 `
 ###### 230731 TIL
 ###### 230801 TIL
 ###### 230929 TIL
+###### 230930 TIL
