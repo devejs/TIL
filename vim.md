@@ -180,8 +180,66 @@
     - `is`: incsearch  // 찾기 위해 입력한 글자가 바로 적용 (바로바로 해당 글자 찾기); 즉, 부분 검색 결과 보여줌
 5. 검색시 대소문자 구별을 옵션 설정이 아니라, 한 번만 적용하고 싶다면 `~/c` -> 이게 검색에만 해당되는건가? 대소문자 구별 안 할 때만 쓰는건가?
 
+#### Lesson 7
+1. Online help `:help`
+    - `:q`로 종료
+    - `:help {cmd}` cmd에 대한 도움말 확인
+    - 새 창으로 열림
+        - `ctrl+w` 로 다른 쪽 윈도우로 넘어갈 수 있음 (중요)
+2. `vimrc` 파일: vim 기능 활용 스크립트
+    - 매번 옵션을 치는 게 불편하기 때문에, 자주 쓰는 옵션 세팅 및 매핑 등을 vimrc 파일에 저장해 vim 시작시 설정
+    - `:help vimrc-intro` 참고
+3. 명령어 완성하기
+    - `:set nocp` 확인: vim 이 이전 vi 와 호환이 안 되게 설정(vim 설정 활용); 기본적으로 vi 가 시작할 때는 이 설정이 on 이기 때문에 off 해줘야 함
+    - 명령어 `:{cmd}` 입력 후 `ctrl+d` 입력시 해당 명령어로 시작하는 모든 명령어 출력
+    - TAB 으로 파일 이름 완성
+<br><br>
+
+#### vi 환경 체크
+```
+:version
+VIM - Vi IMproved 9.0 (2022 Jun 28, compiled Mar 21 2023 05:42:11)
+macOS version - x86_64
+Included patches: 1-1313
+Compiled by root@apple.com
+Normal version without GUI.  Features included (+) or not (-):
++acl               +cryptv            +fork()            +modify_fname      +persistent_undo   -sun_workshop      +viminfo
+-arabic            +cscope            -gettext           +mouse             +popupwin          +syntax            +virtualedit
++autocmd           +cursorbind        -hangul_input      -mouseshape        +postscript        +tag_binary        +visual
++autochdir         +cursorshape       +iconv             +mouse_dec         +printer           -tag_old_static    +visualextra
+-autoservername    +dialog_con        +insert_expand     -mouse_gpm         -profile           -tag_any_white     +vreplace
+-balloon_eval      +diff              +ipv6              -mouse_jsbterm     +python/dyn        -tcl               +wildignore
+-balloon_eval_term +digraphs          +job               +mouse_netterm     -python3           +termguicolors     +wildmenu
+-browse            -dnd               +jumplist          +mouse_sgr         +quickfix          +terminal          +windows
+++builtin_terms    -ebcdic            -keymap            -mouse_sysmouse    +reltime           +terminfo          +writebackup
++byte_offset       -emacs_tags        +lambda            +mouse_urxvt       -rightleft         +termresponse      -X11
++channel           +eval              -langmap           +mouse_xterm       +ruby/dyn          +textobjects       -xfontset
++cindent           +ex_extra          +libcall           +multi_byte        +scrollbind        +textprop          -xim
+-clientserver      +extra_search      +linebreak         +multi_lang        +signs             +timers            -xpm
++clipboard         -farsi             +lispindent        -mzscheme          +smartindent       +title             -xsmp
++cmdline_compl     +file_in_path      +listcmds          +netbeans_intg     -sodium            -toolbar           -xterm_clipboard
++cmdline_hist      +find_in_path      +localmap          +num64             -sound             +user_commands     -xterm_save
++cmdline_info      +float             -lua               +packages          +spell             -vartabs
++comments          +folding           +menu              +path_extra        +startuptime       +vertsplit
++conceal           -footer            +mksession         -perl              +statusline        +vim9script
+   system vimrc file: "$VIM/vimrc"
+     user vimrc file: "$HOME/.vimrc"
+ 2nd user vimrc file: "~/.vim/vimrc"
+      user exrc file: "$HOME/.exrc"
+       defaults file: "$VIMRUNTIME/defaults.vim"
+  fall-back for $VIM: "/usr/share/vim"
+Compilation: gcc -c -I. -Iproto -DHAVE_CONFIG_H   -DMACOS_X_UNIX  -g -O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=1
+Linking: gcc   -L/usr/local/lib -o vim        -lm -lncurses  -liconv -framework Cocoa
+```
+- `./vimrc`, `defaults.vim` 차이
+    - `./vimrc`: 사용자가 원하는 설정들 vi 시작시 자동으로 적용되게 만든 파일. 대표적으로 `:set {option}` 으로 적용되는 옵션들을 미리 줄 수 있다.
+    - `defaults.vim`: Vim 8.0에 추가된 스크립트로 사용자가 설정한 `vimrc` 파일이 없으면 자동으로 적용됨. `nocp` (compatible 적용x), 하이라이팅 등 기본적인 설정들
+
+
 
 #### reference
+- 유닉스 리눅스 프로그래밍 필수 유틸리티
+- [vimhelp](https://vimhelp.org/starting.txt.html)
 
 
 ======================================================
@@ -191,6 +249,7 @@
 ###### 231001 TIL
 ###### 231003 TIL
 ###### 231004 TIL
+###### 231007 TIL
 
 
 
