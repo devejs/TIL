@@ -70,12 +70,14 @@
 
         // 웹으로 외우기   
         // 소문자는 기호 제외, 대문자는 기호 포함
-    - ^: 라인 처음
+    - ^: 라인 처음 (0도 동일)
     - $: 라인 끝
     - `Ctrl+U`: 반 화면 위 이동
     - `Ctrl+D`: 반 화면 아래 이동
     - `gg`: 문서 처음 이동
     - `G`: 문서 끝 이동
+    - `:{line}`: 특정 라인으로 이동
+    - `z.`: 현재 행을 화면의 중앙으로 이동
 3. 문자열 치환
     - `%s/old_string/new_string`: old_string -> new_string 치환
         - 옵션
@@ -114,8 +116,8 @@
 
 #### Lesson 2
 1. 삭제 명령 `d`
-    - `w`: 커서에서 그 단어 끝까지(공백 포함)
-    - `e`: 커서에서 그 단어 끝까지(공백 미포함)
+    - `w`: 커서에서 그 단어 끝까지(공백 포함) -> 다음 단어의 첫 글자
+    - `e`: 커서에서 그 단어 끝까지(공백 미포함) -> 현재 단어의 마지막 글자
     - `$`: 커서에서 그 줄의 끝까지
 2. 커서를 문장 맨 앞으로 이동 `0`, `^`도 됨
 3. 숫자로 명령 반복 -> {count}+명령
@@ -137,7 +139,8 @@
     - `ctrl+G`: 상태줄 표시 (파일 이름, 위치)
     - `G`/`Shift+g`: 파일의 마지막으로 이동
     - `gg`: 파일의 처음으로 이동
-    - `줄 번호 + G`/`줄 번호 + Shift+g`: 입력한 줄로 이동
+    - `줄 번호 + G`/`줄 번호 + Shift+g`: 입력한 줄로 이동<br>
+        -> `:{line}` 으로 쉽게 이동 가능
 2. `ruler` 옵션
 3. 찾기 `/`
     - `n`
@@ -235,7 +238,47 @@ Linking: gcc   -L/usr/local/lib -o vim        -lm -lncurses  -liconv -framework 
     - `./vimrc`: 사용자가 원하는 설정들 vi 시작시 자동으로 적용되게 만든 파일. 대표적으로 `:set {option}` 으로 적용되는 옵션들을 미리 줄 수 있다.
     - `defaults.vim`: Vim 8.0에 추가된 스크립트로 사용자가 설정한 `vimrc` 파일이 없으면 자동으로 적용됨. `nocp` (compatible 적용x), 하이라이팅 등 기본적인 설정들
 
+### vimrc 자주 쓰는 설정들
+```
+""" General Settings
+set nocompatible     " not compatible with original vi
+set history=1000     " set how many lines of history VIM has to remember(.viminfo)
+set autoread     " set auto read when opened file is changed from outside
+set autowrite     " set auto write(:w) on opened file when reading other file; if current file is not written, cannot open other file
+set mouse=a     " use mouse; click(cursor), drag(visual mode), cannot use right click(copy)
+" set mouse-=a      " not using mouse 
+set backspace=eol,start,indent     "  end of line, start, indent can be erased
 
+
+""" VIM user interface
+set ruler     " show current position (row, col) in right bottom
+set hlsearch     " Highlight search results
+set incsearch     " Makes search act like search in modern browsers
+set ignorecase     " ignore lower/upper cases
+set showmatch      " Show matching brackets when text indicator is over them
+set number      " show line numbers
+
+
+""" Colors and Fonts
+syntax on     " language syntax highlight
+colorscheme desert     " color scheme
+set background=dark
+set encoding=utf8     " Set utf8 as standard encoding
+
+
+""" Text, tab and indent related
+set shiftwidth=4     " auto indent's tab size
+set tabstop=4     " 1 tab for 4 spaces
+set cindent     " c style auto indent
+
+
+""" Coding
+set foldmethod=indent     " fold functions by indent or syntax; 
+" open a folded function: 'zo'
+" fold a function: 'zc'
+set foldnestmax=1     " set max depth 1
+
+```
 
 #### reference
 - 유닉스 리눅스 프로그래밍 필수 유틸리티
@@ -250,8 +293,7 @@ Linking: gcc   -L/usr/local/lib -o vim        -lm -lncurses  -liconv -framework 
 ###### 231003 TIL
 ###### 231004 TIL
 ###### 231007 TIL
-
-
+###### 231008 TIL
 
 
 
