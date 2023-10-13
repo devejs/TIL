@@ -100,12 +100,37 @@
         - 작업하던 파일은 vim 프로세스 내부 버퍼에 저장됨
     2. `:sh`-`ctrl+d`: 1과 동일한 동작
     3. `:!`: 터미널만 확인 후 타이핑시 vim 파일로 돌아옴
+    4. `:!{cmd}`: vim 건드리지 않고 쉘 명령어 실행
 
 5. 터미널 작업 결과 vim 에 붙여넣기
     - `:read !~cmd~`
         - 여기서 cmd는 결과를 가져오고 싶은 터미널 명령어
             - ex. ls, cat some_file.md
         - 그럼 현재 커서에 명령어 결과 붙여넣기
+        - `read` 말고 `r` 로만 해도 가능
+
+6. 화면 분할
+    - 윈도우 명령 `ctrl+w`
+        - n: new window(위, 가로 분할)
+        - v: new window(옆, 세로 분할)
+    - 화면 이동: 분할 상태에서 `ctrl+w+{hjkl}`; 분할된 윈도우 방향키
+    - 화면 크기 조절
+        - `ctrl+w`+`-`: 화면 크기 축소
+        - `ctrl+w`+`+`: 화면 크기 확대
+        - `ctrl+w`+`=`: 화면 크기 동일
+
+### 윈도우/버퍼   
+```
+A window is a viewport onto a buffer.  You can use multiple windows on one
+buffer, or several windows on different buffers.
+
+A buffer is a file loaded into memory for editing.  The original file remains
+unchanged until you write the buffer to the file.
+```
+- 윈도우
+- 버퍼
+- 탭
+
 
 
 ### 보통은 필요하지 않지만 가끔 필요할 기능
