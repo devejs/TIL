@@ -114,6 +114,24 @@ int main()
             - **R--** : 여기에 문자열 저장
             - RW- : Static
 
+### 컴파일러
+#### 코드 시점
+1. **Compile time**: 코드 작성 -> 번역 -> 기계어 변환 ==> 목적 파일 생성
+    - 문법적인 error 주로 발생
+    - 전처리: 헤더 파일 포함, 매크로 확장
+        - gcc는 `cpp` 라는 전처리기 사용
+    - 컴파일: C언어 코드가 `ccl`에 의해 어셈블리어로 변환
+        - 전단부(Front-end): 언어 종속적인 부분 처리(어휘, 구문, 의미 분석)
+        - 중단부(Middle-end): SSA 기반으로 최적화 수행(프로그램 수행 속도 향상으로 성능 향상)
+        - 후단부(Back-end): RTS로 아키텍처 최적화 수행(더 효율적인 명령어로 대체해서 성능 향상)
+2. Link time: 여러 조각 파일들을 하나로 묶어 실행 파일 생성 ==> 런타임 바이너리 생성
+- Compile time, Link time 을 묶어 Build time으로 부르기도 함
+
+3. Run time: 실행 파일 실행시 
+    - error 발생시 디버깅이 어려움; 환경(OS 등)에 영향이 큼
+        - 실행 -> Memory 이슈... (Stack 내용 dump 떠서 분석한다거나)
+        - 대부분 프로그램이 멀티 스레딩 환경이므로 동시성 이슈도 고려
+
 #### Reference
 - [독하게 되새기는 C 프로그래밍](https://www.inflearn.com/course/독하게-되새기는-c프로그래밍/dashboard)
 - [IEEE754](https://ko.wikipedia.org/wiki/IEEE_754)
@@ -122,3 +140,4 @@ int main()
 ###### 231024 TIL
 ###### 231027 TIL
 ###### 231028 TIL
+###### 231029 TIL
