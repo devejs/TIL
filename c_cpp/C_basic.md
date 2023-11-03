@@ -132,6 +132,18 @@ int main()
         - 실행 -> Memory 이슈... (Stack 내용 dump 떠서 분석한다거나)
         - 대부분 프로그램이 멀티 스레딩 환경이므로 동시성 이슈도 고려
 
+#### 컴파일러 구성 요소
+- Front-end
+    - 어휘 분석기(Lexical analyzer): Token
+        - 문자열 형태로 존재하는 소스 코드를 의미 있는 문자 혹은 문자열 조각(토큰)으로 변환
+        - 예약어, 상수, 변수, 연산자 등
+    - 구문 분석기(Syntax analyzer): Syntax tree
+        - 각 토큰을 구문 트리(Syntax tree)로 변환하며 이 과정에서 문법 오류 검출
+    - 의미 분석기(Semntic analyzer): Intermediate Representation
+- Back-end
+    - 코드 생성기(Code generator): Assemble code + Optimization
+    - 어셈블러(Assembler): Machine code
+
 #### Reference
 - [독하게 되새기는 C 프로그래밍](https://www.inflearn.com/course/독하게-되새기는-c프로그래밍/dashboard)
 - [IEEE754](https://ko.wikipedia.org/wiki/IEEE_754)
@@ -141,3 +153,4 @@ int main()
 ###### 231027 TIL
 ###### 231028 TIL
 ###### 231029 TIL
+###### 231103 TIL
