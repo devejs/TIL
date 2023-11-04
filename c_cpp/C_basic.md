@@ -137,8 +137,29 @@ int main()
     - 어휘 분석기(Lexical analyzer): Token
         - 문자열 형태로 존재하는 소스 코드를 의미 있는 문자 혹은 문자열 조각(토큰)으로 변환
         - 예약어, 상수, 변수, 연산자 등
+        - 이 때 자르는 기준(delimiter)은 빈칸(space, \n, \t 등), 세미콜론 등 어느 것이든 될 수 있음
+            - 자른다/tokenize 의 의미는 단순히 delimiter 기준으로 `strtok` 하는 것일 수도 있지만, delimiter 기준으로 문자열의 끝에 null(\0) 을 추가해서 나누는 것일 수도 있음
+        - 정규 표현식
+        ```C
+        // human code
+        int main()
+        {
+            int a;
+            a = 3+4;
+            printf("a is %d\n", a);
+
+            return 0;
+        }
+
+        // computer code
+        int main(){int a;a = 3+4;printf("a is %d\n", a);return 0;}
+        // parse computer code with delimiter, and then analyze syntax
+        ```
     - 구문 분석기(Syntax analyzer): Syntax tree
         - 각 토큰을 구문 트리(Syntax tree)로 변환하며 이 과정에서 문법 오류 검출
+        - 추상 구문 트리(AST)
+            - 트리의 각 노드는 소스 코드에서 발생되는 구조를 나타냄
+            * 참고 사이트: astexplorer.net
     - 의미 분석기(Semntic analyzer): Intermediate Representation
 - Back-end
     - 코드 생성기(Code generator): Assemble code + Optimization
@@ -147,6 +168,7 @@ int main()
 #### Reference
 - [독하게 되새기는 C 프로그래밍](https://www.inflearn.com/course/독하게-되새기는-c프로그래밍/dashboard)
 - [IEEE754](https://ko.wikipedia.org/wiki/IEEE_754)
+- [추상 구문 트리](https://ko.wikipedia.org/wiki/추상_구문_트리)
 
 ======================================================
 ###### 231024 TIL
@@ -154,3 +176,4 @@ int main()
 ###### 231028 TIL
 ###### 231029 TIL
 ###### 231103 TIL
+###### 231104 TIL
