@@ -212,11 +212,51 @@ int main()
             - 기계는 연속된 명령어 집합에서 명령을 하나씩 가져와 연산을 실시
             > (연속된 연산 == 실행)
 
+#### 컴파일러 내부 연산
+1. 스택 기반 연산 구조
+    - 연산을 트리로 표기
+    - 피연산자를 자식 노드에 배치
+        - 연산자의 우선 순위가 높은 것이 트리 구조상 아래 노드에 위치
+    - 스택(트리)를 어느 순서로 읽을 것인가?q
+        - V(Visited), L(Left), R(Right)
+        - 전위 순회(preorder): VLR
+        - 중위 순회(inorder): LVR
+        - **후위 순회(postorder): LRV**
+    - 역폴란드 표기법(Reverse Polish Notation): 후위 표기법; 연산자를 연산 대상의 뒤에 쓰는 표기법
+        - 수식을 계산할 때 특별한 변환 필요 없이, 수식을 앞에서부터 읽어 나가면서 스택에 저장하면 된다는 장점
+        - 연산자의 우선 순위가 명확함
+
+    ```
+    // ex1. 3+4
+    // 연산 순서: 3 4 +
+    Stack: push 3
+    Stack: push 4
+    + : 연산자이므로 스택에서 피연산자 2개 pop
+
+    // ex2. int a = 3+4;
+    // 연산 순서 a 3 4 + =
+    Stack: push a
+    // find a in symbol table
+    Stack: push 3
+    Stack: push 4
+    + : 연산자이므로 스택에서 피연산자 2개 pop
+    // solution 1
+    // 계산 결과를 별도의 레지스터에 저장
+    // solution 2
+    // 계산 결과를 동일하게 Stack 에 push
+    = : 연산자이므로 스택에서 피연산자 pop
+    변수 a에 계산값 할당
+
+    // 만약 할당할 타이밍인데 Stack 에서 pop 한 데이터가 변수(메모리)가 아니고 상수면 write 할 수 없으므로 compile error 발생
+    ```
+    <img width="385" alt="stack_based_calculate_structure" src="https://github.com/devejs/TIL/assets/48985445/a83b7561-f318-47bd-b26a-10a988b163ea">
 
 #### Reference
 - [독하게 되새기는 C 프로그래밍](https://www.inflearn.com/course/독하게-되새기는-c프로그래밍/dashboard)
 - [IEEE754](https://ko.wikipedia.org/wiki/IEEE_754)
 - [추상 구문 트리](https://ko.wikipedia.org/wiki/추상_구문_트리)
+- [JAVA 기반 연산 구조(Stack, Register) 참고 블로그](https://www.korecmblog.com/blog/jvm-stack-and-register)
+- [역폴란드 표기법](https://ko.wikipedia.org/wiki/역폴란드_표기법)
 
 ======================================================
 ###### 231024 TIL
@@ -227,3 +267,4 @@ int main()
 ###### 231104 TIL
 ###### 231105 TIL
 ###### 231116 TIL
+###### 231117 TIL
