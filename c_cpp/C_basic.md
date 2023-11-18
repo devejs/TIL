@@ -160,7 +160,8 @@ int main()
         - 추상 구문 트리(AST)
             - 트리의 각 노드는 소스 코드에서 발생되는 구조를 나타냄
             * 참고 사이트: astexplorer.net
-    - 의미 분석기(Semntic analyzer): Intermediate Representation
+        - Lexical~Syntax analysis 과정에서 [Symbol table](#심볼-테이블) 생성
+    - 의미 분석기(Semantic analyzer): Intermediate Representation
 - Back-end
     - 코드 생성기(Code generator): Assemble code + Optimization
         - IR로부터 어셈블리어 등 기계어에 대응될 수 있는 쉬운 명령어 연속(집합)으로 변환
@@ -251,12 +252,36 @@ int main()
     ```
     <img width="385" alt="stack_based_calculate_structure" src="https://github.com/devejs/TIL/assets/48985445/a83b7561-f318-47bd-b26a-10a988b163ea">
 
+#### 심볼 테이블
+컴파일러 또는 인터프리터 같은 언어 변환기에서 사용되는 데이터 구조<br>
+소스 코드에서 참조되는 심볼들의 이름과 주소가 정의됨
+- 심볼
+    - 소스 코드의 각 식별자(전역 변수, 함수 등)의 이름(주소)
+    - 지역 변수는 특정 블록(메모리) 내에만 존재하며 다른 소스 파일에서 접근할 수 없으므로 (자기 자신의 주소를 가질 수 없으므로) 심볼이 될 수 없다
+- 컴파일러 내부에서 사용되는 용도
+    1. 어휘 분석(Lexical Analysis)
+    2. 구문 분석(Syntax Analysis)
+    3. 의미 분석(Semantic Analysis)
+    4. 코드 생성(Intermediate Code generation)
+    5. 코드 최적화(Code Optimization)
+    6. 타겟 코드 생성(Target Code generation)
+```
+Lexical Analysis: Creates new table entries in the table, for example like entries about tokens.
+Syntax Analysis: Adds information regarding attribute type, scope, dimension, line of reference, use, etc in the table.
+Semantic Analysis: Uses available information in the table to check for semantics i.e. to verify that expressions and assignments are semantically correct(type checking) and update it accordingly.
+Intermediate Code generation: Refers symbol table for knowing how much and what type of run-time is allocated and table helps in adding temporary variable information.
+Code Optimization: Uses information present in the symbol table for machine-dependent optimization.
+Target Code generation: Generates code by using address information of identifier present in the table.
+```
+
 #### Reference
 - [독하게 되새기는 C 프로그래밍](https://www.inflearn.com/course/독하게-되새기는-c프로그래밍/dashboard)
 - [IEEE754](https://ko.wikipedia.org/wiki/IEEE_754)
 - [추상 구문 트리](https://ko.wikipedia.org/wiki/추상_구문_트리)
 - [JAVA 기반 연산 구조(Stack, Register) 참고 블로그](https://www.korecmblog.com/blog/jvm-stack-and-register)
 - [역폴란드 표기법](https://ko.wikipedia.org/wiki/역폴란드_표기법)
+- [심볼 테이블](https://ko.wikipedia.org/wiki/심볼_테이블)
+- [Symbol table in compiler](https://www.geeksforgeeks.org/symbol-table-compiler/)
 
 ======================================================
 ###### 231024 TIL
@@ -268,3 +293,4 @@ int main()
 ###### 231105 TIL
 ###### 231116 TIL
 ###### 231117 TIL
+###### 231118 TIL
