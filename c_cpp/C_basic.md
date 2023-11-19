@@ -252,6 +252,33 @@ int main()
     ```
     <img width="385" alt="stack_based_calculate_structure" src="https://github.com/devejs/TIL/assets/48985445/a83b7561-f318-47bd-b26a-10a988b163ea">
 
+    ```
+    // 단항 증감 연산자에 대한 다른 접근
+
+    // ex. b = 3+a++;
+    // 연산 순서: b 3 a + =
+    Stack: push b(변수)
+    Stack: push 3(상수)
+    Stack: push a(변수)
+    +: 스택에서 피연산자 2개 pop
+    /*
+    이 때, a+3 이라는 연산에서 3은 상수 / a는 변수
+    -> 이 연산에서 a라는 변수가 참여하는지 a가 가진 값이 참여하는지가 중요
+    -> a+3은 a 의 값에 대한 연산
+    반면, a++ 증감 단항 연산자는 변수에 대한 연산
+    */
+    // a에 포함된 값 + 3 연산 수행됨
+    // 이 때, 후위 연산이므로 Stack에서 pop 되고 나서 연산됨
+    // 전위 연산일 경우 Stack에 push될 때 연산됨
+
+    ```
+    - (단항)증감 연산자: 피연산자를 1씩 증가 혹은 1씩 감소시킬 때 사용하는 연산자 => **변수에 대한 연산**
+        - 전위 증감: 다른 연산보다 먼저 수행됨
+            - Stack에 **push** 될 때 **변수에 대해** 연산됨
+        - 후위 증감: 다른 연산 수행 후에 수행됨
+            - Stack에서 **pop** 될 떄 **변수에 대해** 연산됨
+
+
 #### 심볼 테이블
 컴파일러 또는 인터프리터 같은 언어 변환기에서 사용되는 데이터 구조<br>
 소스 코드에서 참조되는 심볼들의 이름과 주소가 정의됨
@@ -259,20 +286,12 @@ int main()
     - 소스 코드의 각 식별자(전역 변수, 함수 등)의 이름(주소)
     - 지역 변수는 특정 블록(메모리) 내에만 존재하며 다른 소스 파일에서 접근할 수 없으므로 (자기 자신의 주소를 가질 수 없으므로) 심볼이 될 수 없다
 - 컴파일러 내부에서 사용되는 용도
-    1. 어휘 분석(Lexical Analysis)
-    2. 구문 분석(Syntax Analysis)
-    3. 의미 분석(Semantic Analysis)
-    4. 코드 생성(Intermediate Code generation)
-    5. 코드 최적화(Code Optimization)
-    6. 타겟 코드 생성(Target Code generation)
-```
-Lexical Analysis: Creates new table entries in the table, for example like entries about tokens.
-Syntax Analysis: Adds information regarding attribute type, scope, dimension, line of reference, use, etc in the table.
-Semantic Analysis: Uses available information in the table to check for semantics i.e. to verify that expressions and assignments are semantically correct(type checking) and update it accordingly.
-Intermediate Code generation: Refers symbol table for knowing how much and what type of run-time is allocated and table helps in adding temporary variable information.
-Code Optimization: Uses information present in the symbol table for machine-dependent optimization.
-Target Code generation: Generates code by using address information of identifier present in the table.
-```
+    1. 어휘 분석(Lexical Analysis): 심볼 테이블에 새 엔트리 추가(토큰)
+    2. 구문 분석(Syntax Analysis): 테이블에 attribute 에 대한 정보 추가 (타입, 범위, 레퍼런스, 참조 등)
+    3. 의미 분석(Semantic Analysis): 테이블에서 가능한 정보를 가져와서 의미 확인 (type checking: 표현식, 할당문이 의미상 올바른지 체크해서 업데이트)
+    4. 코드 생성(Intermediate Code generation): 런타임에 어떤 타입이 얼마나 할당되었는지 파악 및 임시 변수 정보들을 추가하는데 심볼 테이블 참조
+    5. 코드 최적화(Code Optimization): 최적화(machine-dependent) 하는데 심볼 테이블의 정보 사용
+    6. 타겟 코드 생성(Target Code generation): 테이블의 식별자 주소정보 사용해서 코드 생성
 
 #### Reference
 - [독하게 되새기는 C 프로그래밍](https://www.inflearn.com/course/독하게-되새기는-c프로그래밍/dashboard)
@@ -294,3 +313,4 @@ Target Code generation: Generates code by using address information of identifie
 ###### 231116 TIL
 ###### 231117 TIL
 ###### 231118 TIL
+###### 231119 TIL
