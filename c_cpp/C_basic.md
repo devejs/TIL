@@ -293,6 +293,29 @@ int main()
     5. 코드 최적화(Code Optimization): 최적화(machine-dependent) 하는데 심볼 테이블의 정보 사용
     6. 타겟 코드 생성(Target Code generation): 테이블의 식별자 주소정보 사용해서 코드 생성
 
+
+### 함수
+#### 호출 관계와 void 반환
+- main 함수: 내가 호출하지 않고 시스템이 호출하는 함수(일종의 진입점)
+
+<img width="570" alt="function_call_process" src="https://github.com/devejs/TIL/assets/48985445/6a3c9592-ada8-4209-9150-e62362909ed0">
+
+- Caller(호출자 함수)
+    - Callee 함수 호출; 호출 후 그 내부에서 어떤 연산/호출이 있는지는 신경 쓰지 않음
+- Callee(피호출자 함수)
+    - callee라도 caller가 될 수 있다
+    - **return**의 의미
+        1. return 값 자체로의 의미(add 함수에서 연산한 값 반환 등)
+        2. callee 함수의 결과 확인(성공/실패)
+        3. void 반환: 결과에 관심x 호출에만 의의
+- 특이한 함수 생성자(Constructor)
+    - C++ 에서 도입된 개념으로, 생성자에서는 아예 반환 자체를 하지 않는다<br>
+        -> 의도된 호출이 없다
+
+* 멀티 스레드/모듈을 고려하지 않으면 호출 흐름이 눈에 보이기 때문에(예측 가능) 반환값이 큰 문제가 되지 않는다
+* 그러나 모듈별로 분리가 되거나, thread를 사용하게 될 경우 문맥 교환 중 예측 불가능할 가능성이 커짐
+    - 특히, Thread가 도입되게 되면 연산은 CPU(HW) 에서 하지만, 스케줄링은 OS가 하기 때문에 실행 순서를 보장x
+
 #### Reference
 - [독하게 되새기는 C 프로그래밍](https://www.inflearn.com/course/독하게-되새기는-c프로그래밍/dashboard)
 - [IEEE754](https://ko.wikipedia.org/wiki/IEEE_754)
@@ -314,3 +337,4 @@ int main()
 ###### 231117 TIL
 ###### 231118 TIL
 ###### 231119 TIL
+###### 231123 TIL
