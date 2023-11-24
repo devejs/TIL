@@ -316,6 +316,37 @@ int main()
 * 그러나 모듈별로 분리가 되거나, thread를 사용하게 될 경우 문맥 교환 중 예측 불가능할 가능성이 커짐
     - 특히, Thread가 도입되게 되면 연산은 CPU(HW) 에서 하지만, 스케줄링은 OS가 하기 때문에 실행 순서를 보장x
 
+#### 매개 변수 전달 기법
+매개 변수도 일종의 자동 변수
+- 자동 변수 + Stack(Stack 구조로 관리되는 메모리; [참고](#메모리-구조))
+    - 컴파일러가 이 변수 메로리를 관리하는 코드를 생성함 -> 메모리가 자동으로 관리됨(자동 변수)
+
+전달 기법
+- Call by value: 스택에 값 복사
+- Call by address: 복사하는 값이 메모리의 주소
+    - 엄밀히 말해서 call by value 에 속하기도 하고 pointer로 구현한 Call by reference 기도 함
+- Call by reference: C언어는 참조형이 없어 포인터로 구현
+    - Call by address나 reference나 하이 레벨 언어에서 사용하는 개념이고, 기계어 수준에서는 동일한 기작
+
+함수 호출시
+- Stack 사용
+- Register 사용: 속도는 빠르나 메모리 크기가 크지 않음
+- Stack과 Register 병용
+
+#### 싱글 스레드 프로세스
+프로그램을 만들면 하나의 Process 생성
+- 하나의 Process에는 기본적으로 하나의 Thread 포함
+- 기본적으로 Single Process - Single Thread 모델로 Thread 수준 동작
+- Thread attached Stack
+    - 하나의 스레드마다 Stack이 존재하는데, 컴파일러에서 별도로 설정해주지 않으면 기본적으로 **1MB** 로 설정된다. (Visual Studio 기준, gcc 확인 필요)
+    - Visual studio 설정에서 스택 크기 수정 가능하나, 이를 넘어서서 사용하는 건 좋지 않음
+    - 스레드 내에서 스택 사이즈가 초과되면 -> **Stack Overflow**
+        - 이 이후로는 연산 자체가 불가능함
+            1. 과하게 stack 을 사용하지는 않았는지
+            2. 함수 호출 관계가 너무 복잡하게 이어지지는 않았는지 확인<br>
+                -> 무분별한 함수 호출은 좋지 않음
+
+
 #### Reference
 - [독하게 되새기는 C 프로그래밍](https://www.inflearn.com/course/독하게-되새기는-c프로그래밍/dashboard)
 - [IEEE754](https://ko.wikipedia.org/wiki/IEEE_754)
@@ -338,3 +369,4 @@ int main()
 ###### 231118 TIL
 ###### 231119 TIL
 ###### 231123 TIL
+###### 231124 TIL
