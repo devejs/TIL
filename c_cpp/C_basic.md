@@ -417,7 +417,32 @@ Stack Frame이 지정된다는 의미는 곧 가상의 Stack에 할당되는 데
         - 2개에 1KB, 4개(2KB)를 묶어 Cluster
     - Page(4KB) 단위로 데이터를 관리하는데, 어떤 식으로 데이터를 관리할 것인지 => 파일 시스템
 - File system
+    - 파일 시스템 적용
+        1. File System 선택
+        2. 적용(파티션(Volume) 분할 등)
+        3. format: 1,2번의 내용을 Table에 정리
+            - FAT(File Allocation Table): Track/Sector를 모아 관리하는 파일시스템 내부 테이블
+    - 파일 시스템 구조
+        - 가상 메모리는 메모리에 연속성이 있지만, Track/Sector는 연속성이 없다
+        - 그래서 일종의 Linked List 같은 구조를 가짐(Sector(p)-Sector(p)-...)
+        - 장점: 한 Sector의 크기를 초과하더라도 연속될 필요 없이 저장 후 Link 됨 => **File 은 연속성이 없음**
 
+- File
+    - File과 Memory의 차이
+        - Memory (RAM, 엄밀히는 VMS): 1차 메모리; R/W시에 크기 할당되어 정해진 크기로만 제한됨
+        - File: 2차 메모리; 특이하게 생성시 0byte 로 시작하여 write 하면 그만큼의 메모리가 추가 할당됨 => **크기 제한 없음**
+    - File 은 연속성이 없다
+        - 즉, 크기에 둔감함
+        - 디스크에 물리적으로 여유 공간만 있다면 File system이 관리할 수 있는 한도로는 무한정 확장 가능
+- 파일이 저장되는 방법
+    1. file write request
+    2. HDD 특정 Sector, Track 에 write
+    3. 2번의 내용이 FAT에 기록됨
+        - Track, Sector, Filename 등의 데이터
+        - Delete 관련 데이터가 있음
+            - 파일 삭제시 메모리가 지워지는 것이 아니라, FAT에서 삭제 여부로 표기
+            - 관리 체계에서 제외됨; 후에 다른 데이터로 overwrite
+            - overwrite 되기 전에는 복구 가능한 이유
 
 
 #### Reference
@@ -447,3 +472,4 @@ Stack Frame이 지정된다는 의미는 곧 가상의 Stack에 할당되는 데
 ###### 231126 TIL
 ###### 231127 TIL
 ###### 231130 TIL
+###### 231201 TIL
