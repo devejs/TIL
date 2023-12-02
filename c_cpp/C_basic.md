@@ -444,6 +444,21 @@ Stack Frame이 지정된다는 의미는 곧 가상의 Stack에 할당되는 데
             - 관리 체계에서 제외됨; 후에 다른 데이터로 overwrite
             - overwrite 되기 전에는 복구 가능한 이유
 
+- 텍스트와 바이너리의 차이
+    - 텍스트 < 바이너리
+        - ASCII 가 정수로 해석될 수 있는 것과 같은 원리
+        - 즉, 데이터 값이 바이너리 중 텍스트로 분류 가능한 조건 1
+        - -1 에 대한 해석(EOF)이 다름
+        - Copy con test.txt 명령
+                <img width="435" alt="file_device_con" src="https://github.com/devejs/TIL/assets/48985445/f2a9586f-9414-4e23-b226-b4c53a8eb54b">
+            - con(CON): console Device File
+                - File 은 어떤 Device에 대한 interface
+                - Device File은 일반 data file과 구별 필요
+            - Console 에 들어온 input 을 test.txt 파일에 copy 하는 커맨드
+                - 인풋의 끝은 윈도우 기준 ^Z(Ctrl+Z)
+            - Console 에 I/O Write 를 한 것이 Device로 전달되는 형태(즉, printf, fput 과 같은 동작)
+
+
 
 #### Reference
 - [독하게 되새기는 C 프로그래밍](https://www.inflearn.com/course/독하게-되새기는-c프로그래밍/dashboard)
