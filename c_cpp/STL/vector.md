@@ -10,8 +10,10 @@
 2. 새 원소가 삽입되어 사이즈가 변경될 때, 새로운 배열을 동적 할당하여 모든 원소들을 새 배열에 옮겨야 함 (big task)
 3. 2번 작업이 너무 비효율적이므로 매번 재할당하지는 않음<br>
     -> 실제로 보이는 크기(`size`)보다 더 큰 공간을 미리 할당: `capacity`
-4. 
-> Libraries can implement different strategies for growth to balance between memory usage and reallocations, but in any case, reallocations should only happen at logarithmically growing intervals of size so that the insertion of individual elements at the end of the vector can be provided with amortized constant time complexity
+4. 재할당은 그 크기가 로그적으로 증가할 때만 발생한다
+    > Libraries can implement different strategies for growth to balance between memory usage and reallocations, but in any case, reallocations should only happen at logarithmically growing intervals of size so that the insertion of individual elements at the end of the vector can be provided with amortized constant time complexity
+
+
 
 ### 비교
 다른 시퀀스 컨테이너와 비교해서, <br>
@@ -69,6 +71,37 @@ typedef Alloc vector::allocator_type;
 | **Allocator** | | | |
 | Allocator | get_allocator | Get allocator | | 
 
+- `assign`
+- `erase`
+    ```C++
+    iterator erase (iterator position);
+    iterator erase (iterator first, iterator last);
+    ```
+    vector 에서 하나의 원소(position) 또는 범위 [first, last) 를 삭제
+        - 실제로 컨테이너의 size 를 삭제된 원소만큼 줄이는 동작
+        - 벡터가 배열 기반의 컨테이너이기 때문에, 벡터 끝이 아닌 요소를 지우는 동작은 모든 원소를 재할당하게 만듦 -> 리스트에 비해 비효율적
+        - 지워진 원소의 다음 요소가 새로 할당된 위치의 iterator 리턴
+- algorithm 함수
+    - `remove`
+        ```C++
+        template <class ForwardIterator, class T>  ForwardIterator remove (ForwardIterator first, ForwardIterator last, const T& val);
+        ```
+        ` [first,last)` 범위에서 val 와 동일한 값을 삭제하고 범위의 마지막 원소 iterator 리턴 
+            - 값을 삭제하더라도 객체의 size를 변경할 수는 없음
+            - `operator==` 로 값 비교 
+            - val과 동일한 값을 확인하면 그 다음에 있는 동일하지 않은 원소로 대체(replace)하는 것을 반복하여 val 값이 없는 새로운 범위를 만들고 그 범위의 마지막 iterator를 리턴하는 것
+            - 따라서 리턴된 iterator 뒤부터 마지막 last까지는 `valid but unspecified state.`
+                - 객체의 상태는 유효하지만 특정 상태라고 확정할 수 없는 상태. (주로 MOVE SEMANTICS 연산에서 발생함)
+            - 지워지지 않은 원소들의 상대적 위치는 유지되나, 지워질 원소들의 상대적 위치의 경우 유지가 보장되지 않음
+    - `remove_if`
+        ```C++
+        template <class ForwardIterator, class UnaryPredicate>  ForwardIterator remove_if (ForwardIterator first, ForwardIterator last,                             UnaryPredicate pred);
+        ```
+        ` [first,last)` 범위에서 pred가 true를 리턴하는 원소를 삭제하고 범위의 마지막 원소 iterator 리턴 
+            - remove와 동일하게, 값을 삭제하더라도 객체의 size를 변경할 수는 없음
+            - 조건을 만족하여 true를 리턴하는 경우에만 그 다음의 false 리턴하는 원소로 대체(replace)
+            - pred - 단항 함수는 range 내의 원소를 인자로 받는다
+            - 그 외 조건은 remove와 동일(순서 보장, 객체 상태 등)
 
 ### 추가 공부할 내용
 1. template parameter `T`에 들어가는 자료형이 [`move`, 즉 객체 이동시 에러를 뱉지 않는다는게 보장이 되어야 함](https://cplusplus.com/reference/type_traits/is_nothrow_move_constructible/)
@@ -79,7 +112,11 @@ typedef Alloc vector::allocator_type;
 
 ### Reference
 [cplusplus: vector](https://cplusplus.com/reference/vector/vector/)
+[cplusplus: remove](https://cplusplus.com/reference/algorithm/remove/?kw=remove)
+[cplusplus: remove_if](https://cplusplus.com/reference/algorithm/remove_if/?kw=remove_if)
+[cplusplus: erase](https://cplusplus.com/reference/vector/vector/erase/)
 
 
 ======================================================
 ###### 230706 TIL
+###### 240120 TIL
