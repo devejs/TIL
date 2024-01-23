@@ -72,6 +72,21 @@ typedef Alloc vector::allocator_type;
 | Allocator | get_allocator | Get allocator | | 
 
 - `assign`
+    ```C++
+    template <class InputIterator>  void assign (InputIterator first, InputIterator last);      // 1. range
+    void assign (size_type n, const value_type& val);       // 2. fill
+    void assign (initializer_list<value_type> il);      // 3. initialize list
+    ```
+    현재의 벡터 내용을 새 벡터로 대체하며 size도 변경 적용
+    - 선언한 벡터를 아예 새 벡터로 재할당한다는 느낌; 그러나 메모리 주소 자체가 바뀌지는 않음(값, size만 재할당)
+- `clear`
+    ```C++
+    void clear() noexcept;
+    // noexcept: c++11 이후에서 사용하는 키워드로, 자세한 내용은 다른 곳에서
+    ```
+    벡터의 모든 원소를 삭제하고 size를 0으로 변경
+    - 메모리 재할당/벡터 capacity 변경이 보장되지 않음
+    - 메모리가 재할당되는 대표적인 함수는 `swap`
 - `erase`
     ```C++
     iterator erase (iterator position);
@@ -115,8 +130,10 @@ typedef Alloc vector::allocator_type;
 [cplusplus: remove](https://cplusplus.com/reference/algorithm/remove/?kw=remove)
 [cplusplus: remove_if](https://cplusplus.com/reference/algorithm/remove_if/?kw=remove_if)
 [cplusplus: erase](https://cplusplus.com/reference/vector/vector/erase/)
+[cplusplus: clear](https://cplusplus.com/reference/vector/vector/clear/)
 
 
 ======================================================
 ###### 230706 TIL
-###### 240120 TIL
+###### 240121 TIL
+###### 240123 TIL
