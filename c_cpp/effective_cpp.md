@@ -24,7 +24,52 @@ int x = 0;
 f(x);       // call f with an int
 ```
 T는 `int`로, ParamType은 `const int&`로 추론된다.
+T의 타입은 함수에 전달된 인자와 동일한 타입, 즉 expr의 타입으로 추론하는 것이 자연스럽다. 위 예시가 x가 int이고, T는 int로 추론되는 경우이다. 하지만 항상 이렇게 동작하는 것은 아니다. T가 추론되는 타입은 expr의 타입에만 의존하는 것이 아니라 ParamType의 형태에도 의존한다. 다음 세 가지 경우가 있다.
+1. ParamType 은 포인터나 참조자 타입이나 보편적인 참조는 아니다. (보편적인 참조는 Item 24에서 설명한다.) 여기서 알아야 하는 것은 보편적인 참조자가 존재하며 lvalue 참조와 rvalue 참조가 같지 않다는 것이다.
+    <details>
+    <summary>1번 내용 추가 공부 필요</summary>
 
+    ParamType is a pointer or reference type, but not a universal reference. (Univer‐ sal references are described in Item 24. At this point, all you need to know is that they exist and that they’re not the same as lvalue references or rvalue references.)
+    </details>
+2. ParamType은 보편적인 참조자이다.
+3. ParamType은 포인터도 아니고, 참조자도 아니다. 
+
+이렇게 3가지의 타입 추론 시나리오가 있고, 각각은 일반적으로 템플릿과 템플릿을 호출하는 일반적인 형태에 의존한다.
+
+```C++
+emplate<typename T> void f(ParamType param);
+f(expr);     // deduce T and ParamType from expr
+```
+
+### Case 1: ParamType이 참조자나 포인터이나 보편적인 참조자가 아닌 경우
+가장 단순한 상황이다. 이 경우, 타입 추론은 다음과 같이 동작한다
+1. expr의 타입이 참조자이면, 참조자 부분을 무시한다.
+2. Then pattern-match expr’s type against ParamType to determine T.
+
+예를 들면, 
+```C++
+template<typename T>
+void f(T& param);   // param is a reference
+
+int x = 27;             // x is an int
+const int cx = x;       // cx is a const int
+const int& rx = x;      // rx is a reference to x as a const int
+
+// expr 의 값에 따른 param과 T의 타입 추론 형태
+f(x);               // T is int, param's type is int&
+f(cx);              // T is const int,
+                    // param's type is const int&
+f(rx);              // T is const int,
+                    // param's type is const int&
+```
+
+두번째와 세번째 호출에서, cx와 rx가 const 값으로 설계되었기 때문에 T가 `const int` 로 추론되고, 그에 따라 매개변수(Parameter) 타입이 `const int&`가 된 것임을 알아야 한다. 호출자에게 그것이 중요하다. 참조 매개변수에 const 객체를 전달하면, 그 객체는 변하지 않으므로 매개변수가 const에 대한 참조자가 된다. 객체의 상수성이 T의 타입 추론에 일부가 되는 것으로, const 객체를 `T&` 매개변수를 갖는 템플릿에 전달하는 것이 안전한 이유이다.
+세번째 예시에서, rx의 타입이 참조자더라도 T는 non-reference 타입으로 추론된다. rx의 참조성이 타입 추론중 무시되기 때문이다.
+    <details>
+    <summary>추가 공부 필요</summary>
+
+In the third example, note that even though rx’s type is a reference, T is deduced to be a non-reference. That’s because rx’s reference-ness is ignored during type deduc‐ tion.
+    </details>
 
 
 ### Chapter 1. voca
@@ -62,7 +107,39 @@ T는 `int`로, ParamType은 `const int&`로 추론된다.
 - reference qualifier
     - qualifier
 
+- yield: to give up the control of or responsibility for something, often because you have been forced to
+
+- aliasing: In computing, aliasing describes a situation in which **a data location in memory can be accessed through different symbolic names** in the program. Thus, modifying the data through one name implicitly modifies the values associated with all aliased names, which may not be expected by the programmer. As a result, aliasing makes it particularly difficult to understand, analyze and optimize progra
+
+
+### 추가 공부
+#### reference type
+참조자는 객체를 대체할수 있는 이름 혹은 별명(alias)이다. 참조자에 적용되는 모든 동작들이 참조자가 참조하는 객체에 작용한다. 참조자의 주소는 진짜 객체(별명의 진짜 주인)의 주소이다. 
+참조자 타입은 좌측값 참조자와 우측값 참조자를 모두 포함한다. 좌측값 참조자 타입은 형식 지정자(type specifier) 뒤에 `reference modifier &` 을 위치시켜 정의한다. 우측값 참조자는 형식 지정자 뒤에 `reference modifier &&` 를 위치시켜 정의한다. 
+함수 매개변수를 제외한 모든 참조자들은 반드시 정의될 때 초기화되어야 한다. 타겟의 별명(alias)이기 때문에 참조자는 한번 정의되면 재할당될 수 없다. 참조자를 재할당하려고 하면 타겟에 새로운 값이 할당되는 것을 볼 수 있다.
+함수의 인자가 값으로 전달되기 때문에, 함수 호출은 인자의 실제 값을 변경할 수 없다. 만약 함수가 인자의 실제 값을 수정하거나 한 개 이상의 값을 반환해야 한다면 인자는 반드시 참조로 전달되어야 한다. 참조로 인자를 전달하는 것은 참조자를 사용하거나 포인터를 사용한다. C와 다르게 C++은 참조로 값을 전달할 때 반드시 포인터를 사용할 필요는 없다. 참조자를 사용하는 문법이 포인터를 사용하는 것보다 다소 간단하다.
+값을 참조로 전달하면 함수 내에서 복사본 없이 참조된 객체를 변경할 수 있다. 전체 객체가 아니라 원본 객체의 주소만 스택에 올라간다.
+- 예시
+    ```C++
+    int f(int&);
+    
+    int main()
+    {
+        extern int i;
+        f(i);
+    }
+    ```
+- 참조가 불가능한 객체
+    - NULL
+    - void
+    - invalid objects or functions
+    - bit field
+    - 참조자(reference)
+        - [Reference collapsing](https://www.ibm.com/docs/en/i/7.3?topic=operators-reference-collapsing-c11)
+
+- [참고 문서](https://www.ibm.com/docs/en/i/7.3?topic=declarators-references-c-only)
 
 ======================================================
 ###### 240125 TIL
 ###### 240127 TIL
+###### 240128 TIL
